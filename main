@@ -1,0 +1,109 @@
+#include <iostream> 
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
+
+class Coin {
+    private:
+        std::string sideUp;
+    public:
+        Coin();
+        void toss();
+        std::string getSideUp();
+};
+
+Coin::Coin() {
+    unsigned seed = time(0);
+    srand(seed);
+    
+    toss();
+}
+
+void Coin::toss() {
+    int flip = rand() % 2;
+    
+    if (flip == 0) {
+        sideUp = "heads";
+    }
+    else {
+        sideUp = "tails";
+    }
+}
+
+std::string Coin::getSideUp() {
+    return sideUp;
+}
+
+int main()
+{
+    Coin quarter, dime, nickel;
+    std::string blah = "blah";
+    double balance = 0.0;
+    int rounds = 1;
+    
+    
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "You have a quarter, dime, and a nickel.\n";
+    std::cout << "Each round, you flip all of them.\n";
+    std::cout << "If they land on heads, their value\n   gets added to your balance.\n";
+    std::cout << "If you go over $1.00, you lose.\nBut if you get exactly $1.00, you win.\n";
+    std::cout << "Good luck!\n\n";
+    std::cout << "Enter anything to continue: ";
+    std::cin >> blah;
+    
+    while (balance <= 1.0) {
+        
+        double added = 0;
+        
+        std::cout << "\nROUND " << rounds << ":\n";
+        std::cout << "Flipping...\n";
+        
+        quarter.toss();
+        dime.toss();
+        nickel.toss();
+        
+        std::cout << "\nQUARTER: " << quarter.getSideUp();
+        
+        if (quarter.getSideUp() == "heads") {
+            std::cout << " (+$0.25)";
+            balance += 0.25;
+            added += 0.25;
+        }
+        std::cout << "\nDIME: " << dime.getSideUp();
+        
+        if (dime.getSideUp() == "heads") {
+            std::cout << " (+$0.10)";
+            balance += 0.10;
+            added += 0.10;
+        }
+        std::cout << "\nNICKEL: " << nickel.getSideUp();
+        
+        if (nickel.getSideUp() == "heads") {
+            std::cout << " (+$0.05)";
+            balance += 0.05;
+            added += 0.05;
+        }
+        
+        std::cout << "\n\nAdding $" << added << " to your balance.\n";
+        std::cout << "CURRENT BALANCE: $" << balance << "\n";
+        
+        if (balance >= 1.0) {
+            break;
+        }
+        
+        std::cout << "Ready for the next round? ";
+        std::cin >> blah;
+        std::cout << "\n";
+        
+        rounds++;
+    }
+    
+    if (balance == 1.0) {
+        std::cout << "Congrats! You won!\n";
+    }
+    else {
+        std::cout << "Sorry, you LOSE!\n";
+    }
+    
+    return 0;
+}
